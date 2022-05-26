@@ -76,13 +76,13 @@ static void resource_load(XrmDatabase db, char *name, enum resource_type rtype, 
 static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
 static char *(*fstrstr)(const char *, const char *) = strstr;
 
-<<<<<<< HEAD
 static unsigned int
 textw_clamp(const char *str, unsigned int n)
 {
 	unsigned int w = drw_fontset_getwidth_clamp(drw, str, n) + lrpad;
 	return MIN(w, n);
-=======
+}
+
 static int
 issel(size_t id)
 {
@@ -90,7 +90,6 @@ issel(size_t id)
 		if (selid[i] == id)
 			return 1;
 	return 0;
->>>>>>> 16fce21 (Applies multi-selection patch)
 }
 
 static void
@@ -645,9 +644,9 @@ paste(void)
 static void
 readstdin(void)
 {
-	char *line = NULL;
-	size_t i, junk, size = 0;
-	ssize_t len;
+	char buf[sizeof text], *p;
+	size_t i, imax, size = 0;
+    unsigned int tmpmax = 0;
 
 	/* read each line from stdin and add it to the item list */
 	for (i = 0; (len = getline(&line, &junk, stdin)) != -1; i++, line = NULL) {
